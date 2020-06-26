@@ -19,6 +19,7 @@ const App: FC = () => {
   const styles = useStyles();
   return (
     <article className={styles.app}>
+      <Header />
       <main className={styles.main}>
         <article className={styles.communication}></article>
         <Planner map="Dalian_plant" />
