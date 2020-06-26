@@ -1,18 +1,31 @@
 import React, { FC } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import Planner from './Planner';
+import Header from './Header';
 
 const useStyles = makeStyles({
+  app: { height: '100%' },
   main: {
-    textAlign: 'center',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    height: '100%',
+    display: 'grid',
+    gridTemplateColumns: '10em auto 10em',
+    gridTemplateRows: '1fr',
+    justifyContent: 'center',
   },
+  communication: {},
+  maps: {},
 });
 
 const App: FC = () => {
- return <h1>tuturu</h1>
+  const styles = useStyles();
+  return (
+    <article className={styles.app}>
+      <main className={styles.main}>
+        <article className={styles.communication}></article>
+        <Planner map="Dalian_plant" />
+        <article className={styles.maps}></article>
+      </main>
+    </article>
+  );
 };
 
 export default App;

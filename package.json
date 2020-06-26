@@ -24,6 +24,10 @@
     "verify:format": "prettier '**/*.{less,ts,tsx}' --ignore-path='.eslintignore' -l",
     "verify:lint": "eslint . . --ext .js,.ts,.tsx"
   },
+  "staticFiles": {
+    "staticPath": "assets",
+    "watcherGlob": "**"
+  },
   "keywords": [],
   "author": "",
   "license": "MIT",
@@ -62,6 +66,7 @@
     "less": "^3.11.1",
     "npm-run-all": "^4.1.5",
     "parcel-bundler": "^1.12.4",
+    "parcel-plugin-static-files-copy": "^2.4.3",
     "prettier": "^2.0.4",
     "prettier-eslint": "^9.0.1",
     "rimraf": "^3.0.2",
