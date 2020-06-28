@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
+import Canvas from './drawing/Canvas';
 
 const useStyles = makeStyles({
   map: {
@@ -19,6 +19,7 @@ const Planner: FC<Props> = ({ map }) => {
   const styles = useStyles();
   return (
     <article>
+      <Canvas />
       <img
         className={styles.map}
         src={`maps/${map}/gpm_cq_16_menuMap.png`}
