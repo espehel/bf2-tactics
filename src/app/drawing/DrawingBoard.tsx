@@ -1,24 +1,27 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { FC, useEffect, useRef } from 'react';
 import { fabric } from 'fabric';
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import Toolbar, { Tools } from './Toolbar';
-import { useTools } from '../state/Tools';
 import { useCanvas } from '../state/Canvas';
 
 const useStyles = makeStyles((theme) => ({
-  root: {
+  drawingBoard: {
     width: '1024px',
     height: '1024px',
-    border: 'solid',
-    padding: '',
+    position: 'relative',
+    margin: 'auto',
   },
-  canvas: {},
+  canvas: { 'z-index': '100' },
+  background: { position: 'absolute', top: '0', left: '0' },
 }));
 
-const DrawingBoard = () => {
+interface Props {
+  backgroundSrc: string;
+}
+
+const DrawingBoard: FC<Props> = ({ backgroundSrc }) => {
   const styles = useStyles();
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const { canvas, setCanvas } = useCanvas();
+  const { setCanvas } = useCanvas();
   useEffect(() => {
     if (canvasRef.current) {
       setCanvas(
@@ -31,9 +34,14 @@ const DrawingBoard = () => {
   }, [canvasRef]);
 
   return (
-    <div className={styles.root}>
+    <section className={styles.drawingBoard}>
       <canvas id="draw-canvas" ref={canvasRef} className={styles.canvas} />
-    </div>
+      <img
+        className={styles.background}
+        src={backgroundSrc}
+        alt="Background of the drawingboard"
+      ></img>
+    </section>
   );
 };
 

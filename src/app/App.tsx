@@ -8,9 +8,8 @@ import { mapNames } from './mapAssets';
 const useStyles = makeStyles({
   app: { height: '100%' },
   main: {
-    display: 'grid',
-    gridTemplateColumns: 'minmax(auto, 360px) auto 10em',
-    gridTemplateRows: '1fr',
+    display: 'flex',
+    justifyContent: 'space-between',
   },
   communication: {},
 });

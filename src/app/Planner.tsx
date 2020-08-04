@@ -1,19 +1,13 @@
 import React, { FC } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
 import DrawingBoard from './drawing/DrawingBoard';
 import Toolbar from './drawing/Toolbar';
 import { CanvasProvider } from './state/Canvas';
 import { ToolsProvider } from './state/Tools';
 
 const useStyles = makeStyles({
-  main: {
-    width: '100%',
-    height: 'auto',
-    maxWidth: '1024px',
-    maxHeight: '1024px',
-    position: 'relative',
-  },
-  map: { position: 'absolute', 'z-index': '-1', top: '0', left: '0' },
+  planner: { padding: '0.5em' },
 });
 
 interface Props {
@@ -25,15 +19,12 @@ const Planner: FC<Props> = ({ map }) => {
   return (
     <CanvasProvider>
       <ToolsProvider>
-        <article className={styles.main}>
-          <Toolbar />
-          <DrawingBoard />
-          <img
-            className={styles.map}
-            src={`maps/${map}/gpm_cq_16_menuMap.png`}
-            alt={`Map of ${map}`}
-          ></img>
-        </article>
+        <Paper square>
+          <article className={styles.planner}>
+            <Toolbar />
+            <DrawingBoard backgroundSrc={`maps/${map}/gpm_cq_16_menuMap.png`} />
+          </article>
+        </Paper>
       </ToolsProvider>
     </CanvasProvider>
   );

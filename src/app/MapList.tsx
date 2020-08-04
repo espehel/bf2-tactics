@@ -7,11 +7,9 @@ import ListItemText from '@material-ui/core/ListItemText';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    width: '100%',
+  mapList: {
     height: '100%',
     overflowY: 'scroll',
-    maxWidth: 360,
   },
 }));
 
@@ -23,7 +21,7 @@ interface Props {
 const MapList: FC<Props> = ({ maps, onMapClick }) => {
   const classes = useStyles();
   return (
-    <List dense className={classes.root}>
+    <List dense className={classes.mapList}>
       {maps.map((mapName) => {
         return (
           <ListItem

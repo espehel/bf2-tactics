@@ -5,6 +5,10 @@ import makeStyles from '@material-ui/core/styles/makeStyles';
 import { useTools } from '../state/Tools';
 
 const useStyles = makeStyles((theme) => ({
+  toolBar: {
+    padding: '0.5em',
+    backgroundColor: 'plum',
+  },
   active: {
     backgroundColor: 'green',
   },
@@ -26,7 +30,7 @@ const Toolbar: FC = () => {
   );
 
   return (
-    <section>
+    <section className={classes.toolBar}>
       <IconButton
         className={getClasses('drawing')}
         aria-label="toogle-drawing"
