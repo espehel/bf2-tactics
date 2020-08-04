@@ -9,7 +9,7 @@ const useStyles = makeStyles({
   app: { height: '100%' },
   main: {
     display: 'grid',
-    gridTemplateColumns: 'auto auto 10em',
+    gridTemplateColumns: 'minmax(auto, 360px) auto 10em',
     gridTemplateRows: '1fr',
   },
   communication: {},
