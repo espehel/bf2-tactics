@@ -29,7 +29,11 @@ const [ToolsProvider, useTools] = createUseContext(() => {
     [activeTool, onToolModeChanged]
   );
 
-  return { activeTool, changeToolMode };
+  const changePencilMode = useCallback((options: any) => {
+    onToolModeChanged('pencil-mode', options);
+  }, []);
+
+  return { activeTool, changeToolMode, changePencilMode };
 });
 
 export { ToolsProvider, useTools };

@@ -3,11 +3,11 @@ import Icon from '@material-ui/core/Icon';
 import IconButton from '@material-ui/core/IconButton';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import { useTools } from '../state/Tools';
+import PencilColorSelect from './PencilColorSelect';
 
 const useStyles = makeStyles((theme) => ({
   toolBar: {
     padding: '0.5em',
-    backgroundColor: 'plum',
   },
   active: {
     backgroundColor: 'green',
@@ -17,11 +17,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export type Tools = 'selection' | 'drawing';
+export type Tools = 'selection' | 'drawing' | 'pencil-mode';
 
 const Toolbar: FC = () => {
   const classes = useStyles();
-  const { activeTool, changeToolMode } = useTools();
+  const { activeTool, changeToolMode, changePencilMode } = useTools();
 
   const getClasses = useCallback(
     (tool: Tools): string =>
@@ -45,6 +45,7 @@ const Toolbar: FC = () => {
       >
         <Icon>open_with</Icon>
       </IconButton>
+      <PencilColorSelect onSelect={changePencilMode} />
     </section>
   );
 };

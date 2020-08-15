@@ -7,7 +7,7 @@ import { CanvasProvider } from './state/Canvas';
 import { ToolsProvider } from './state/Tools';
 
 const useStyles = makeStyles({
-  planner: { padding: '0.5em' },
+  planner: { padding: '0.5em', backgroundColor: 'powderblue' },
 });
 
 interface Props {
