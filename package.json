@@ -9,7 +9,7 @@
     "start": "parcel src/app/index.html -d build/parcel_serve",
     "local": "run-p local:*",
     "local:app": "parcel watch src/app/index.html -d build/dist",
-    "local:server": "npm run build:server && node ./build/server/web-server.js",
+    "local:server": "npm run build:server && node ./build/web-server.js",
     "build": "run-p build:*",
     "build:app": "parcel build src/app/index.html -d build/dist",
     "build:server": "tsc --project src/server/tsconfig.json",
@@ -41,7 +41,8 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "styled-components": "^5.1.0",
-    "uniqid": "^5.2.0"
+    "uniqid": "^5.2.0",
+    "ws": "^7.3.1"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
@@ -55,6 +56,7 @@
     "@types/react-dom": "^16.9.6",
     "@types/styled-components": "^5.1.0",
     "@types/uniqid": "^4.1.3",
+    "@types/ws": "^7.2.9",
     "@typescript-eslint/eslint-plugin": "^2.23.0",
     "@typescript-eslint/parser": "^2.23.0",
     "eslint": "^6.8.0",

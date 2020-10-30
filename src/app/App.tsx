@@ -4,6 +4,7 @@ import Planner from './Planner';
 import Header from './Header';
 import MapList from './MapList';
 import { mapNames } from './mapAssets';
+import Communication from './Communication';
 
 const useStyles = makeStyles({
   app: { height: '100%' },
@@ -23,7 +24,7 @@ const App: FC = () => {
       <main className={styles.main}>
         <MapList maps={mapNames} onMapClick={setMap} />
         <Planner map={map} />
-        <article className={styles.communication}></article>
+        <Communication />
       </main>
     </article>
   );
