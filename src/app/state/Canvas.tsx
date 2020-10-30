@@ -7,12 +7,15 @@ const [CanvasProvider, useCanvas] = createUseContext(() => {
   const [canvas, setCanvas] = useState<fabric.Canvas>();
 
   const onToolModeChanged = useCallback(
-    (tool: Tools, value: boolean) => {
+    (tool: Tools, value: any) => {
       if (canvas) {
         switch (tool) {
           case 'drawing': {
             canvas.isDrawingMode = value;
             break;
+          }
+          case 'pencil-mode': {
+            canvas.freeDrawingBrush.color = value;
           }
         }
       }

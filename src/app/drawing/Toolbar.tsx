@@ -21,7 +21,7 @@ export type Tools = 'selection' | 'drawing' | 'pencil-mode';
 
 const Toolbar: FC = () => {
   const classes = useStyles();
-  const { activeTool, changeToolMode, changePencilMode } = useTools();
+  const { activeTool, changeToolMode } = useTools();
 
   const getClasses = useCallback(
     (tool: Tools): string =>
@@ -45,7 +45,7 @@ const Toolbar: FC = () => {
       >
         <Icon>open_with</Icon>
       </IconButton>
-      <PencilColorSelect onSelect={changePencilMode} />
+      <PencilColorSelect />
     </section>
   );
 };

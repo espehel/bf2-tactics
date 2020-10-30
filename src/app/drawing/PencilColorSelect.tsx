@@ -8,9 +8,6 @@ import { useTools } from '../state/Tools';
 interface ColorItemProps {
   color: string;
 }
-interface PencilColorSelectProps {
-  onSelect: (options: any) => void;
-}
 
 const useColorItemStyles = makeStyles(() => ({
   colorItem: {
@@ -32,15 +29,18 @@ const ColorItem: FC<ColorItemProps> = (props) => {
   return <Paper className={classes.colorItem} />;
 };
 
+const colors = ['red', 'blue', 'green', 'yellow', 'black', 'white'];
+
 const PencilColorSelect: FC = () => {
   const classes = useStyles();
-  const colors = ['red', 'blue', 'green', 'yellow', 'black', 'white'];
   const { changePencilMode } = useTools();
 
-  const handleOnColorSelect = useCallback((event: React.ChangeEvent) => {
-    console.log(event);
-    changePencilMode(event.target.value);
-  }, []);
+  const handleOnColorSelect = useCallback(
+    (event: React.ChangeEvent<{ name?: string; value: unknown }>) => {
+      changePencilMode(event.target.value);
+    },
+    [changePencilMode]
+  );
 
   return (
     <Select
