@@ -9,10 +9,9 @@ import Communication from './Communication';
 const useStyles = makeStyles({
   app: { height: '100%' },
   main: {
-    display: 'flex',
-    justifyContent: 'space-between',
+    display: 'grid',
+    gridTemplateColumns: '1fr 1024px 1fr',
   },
-  communication: {},
 });
 
 const App: FC = () => {
