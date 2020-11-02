@@ -10,3 +10,8 @@ export const createSpace = async (body: CreateSpaceBody): Promise<Space> => {
   });
   return response.json();
 };
+
+export const getSpaces = async (): Promise<Array<Space>> => {
+  const response = await fetch('spaces');
+  return response.json();
+};

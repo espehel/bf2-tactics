@@ -58,7 +58,7 @@ app.post('/spaces/create', (request, response) => {
 });
 
 app.get('/spaces', (request, response) => {
-  response.status(200).send(spaces.values());
+  response.status(200).send([...spaces.values()]);
 });
 
 // The "catchall" handler: for any request that doesn't
