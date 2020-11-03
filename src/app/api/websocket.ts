@@ -7,36 +7,40 @@ import {
   Space,
 } from '../../types/communication';
 
-let socket: Socket;
+export default class Websocket {
+  socket: Socket;
 
-export const connect = (nsp: string = ''): Promise<string> => {
-  return new Promise<string>((resolve, reject) => {
-    socket = io(`/${nsp}`, { reconnection: false });
-    socket.on('connect', () => {
-      resolve('socket connected.');
+  // Singleton pattern
+  private static webSocket?: Websocket;
+  private constructor(socket: Socket) {
+    this.socket = socket;
+  }
+  static connect = (nsp: string = ''): Promise<Websocket> => {
+    return new Promise<Websocket>((resolve, reject) => {
+      if (Websocket.webSocket) {
+        resolve(Websocket.webSocket);
+      } else {
+        const socket = io(`/${nsp}`, { reconnection: false });
+        const webSocket = new Websocket(socket);
+        socket.on('connect', () => {
+          resolve(webSocket);
+        });
+        socket.on('connect_error', () => {
+          reject('Error connection to socket.');
+        });
+      }
     });
-    socket.on('connect_error', () => {
-      reject('Error connection to socket.');
-    });
-  });
-};
+  };
 
-export const joinSpace = (peer: Peer): Promise<Space> =>
-  new Promise<Space>((resolve, reject) => {
-    if (socket) {
-      socket.emit(SocketEvent.JoinSpace, peer);
-      socket.on(SocketEvent.SpaceUpdated, (space: Space) => {
+  joinSpace = (peer: Peer): Promise<Space> =>
+    new Promise<Space>((resolve) => {
+      this.socket.emit(SocketEvent.JoinSpace, peer);
+      this.socket.on(SocketEvent.SpaceUpdated, (space: Space) => {
         resolve(space);
       });
-    } else {
-      reject('Socket not connected');
-    }
-  });
+    });
 
-export const onSpaceUpdated = (fn: SpaceUpdatedFunction) => {
-  if (socket) {
-    socket.on(SocketEvent.SpaceUpdated, fn);
-  } else {
-    throw new Error('Socket not connected');
-  }
-};
+  onSpaceUpdated = (fn: SpaceUpdatedFunction) => {
+    this.socket.on(SocketEvent.SpaceUpdated, fn);
+  };
+}
