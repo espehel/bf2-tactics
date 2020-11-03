@@ -29,7 +29,7 @@ render(
   <ThemeProvider theme={theme}>
     <Router>
       <Switch>
-        <Route path={['/', '/:spaceId']}>
+        <Route path={['/:spaceId', '/']}>
           <SpaceProvider>
             <App />
           </SpaceProvider>

@@ -1,8 +1,16 @@
-import React, { Dispatch, FC, SetStateAction, useState } from 'react';
+import React, {
+  Dispatch,
+  FC,
+  SetStateAction,
+  useCallback,
+  useState,
+} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import { TextField } from '@material-ui/core';
 import { useSpace } from './state/Space';
+import { useHistory } from 'react-router-dom';
+import { Space } from '../types/communication';
 
 const useStyles = makeStyles({
   main: { display: 'flex', flexDirection: 'column', padding: '1em' },
@@ -13,12 +21,25 @@ const Communication: FC = () => {
   const { space, spaces, createSpace, joinSpace } = useSpace();
   const [peerName, setPeerName] = useState('');
   const [spaceName, setSpaceName] = useState('');
+  const history = useHistory();
 
   const handleStateChange = (setState: Dispatch<SetStateAction<string>>) => (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     setState(event.target.value);
   };
+
+  const handleCreateSpace = useCallback(async () => {
+    const createdSpace = await createSpace(peerName, spaceName);
+    history.replace(`/${createdSpace.id}`);
+  }, [peerName, spaceName]);
+
+  const handleJoinSpace = useCallback(
+    (space: Space) => () => {
+      history.push(`/${space.id}`);
+    },
+    []
+  );
 
   return (
     <article className={styles.main}>
@@ -38,7 +59,7 @@ const Communication: FC = () => {
             <Button
               variant="contained"
               color="primary"
-              onClick={() => createSpace(peerName, spaceName)}
+              onClick={handleCreateSpace}
             >
               Create room
             </Button>
@@ -48,7 +69,7 @@ const Communication: FC = () => {
               <Button
                 key={space.id}
                 variant="outlined"
-                onClick={() => joinSpace(space, peerName)}
+                onClick={handleJoinSpace(space)}
               >
                 {space.name}
               </Button>

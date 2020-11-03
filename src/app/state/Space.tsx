@@ -1,5 +1,5 @@
 import createUseContext from 'constate';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Space } from '../../types/communication';
 import { useAsync } from 'react-use';
 import { getSpaces, postSpacesCreate } from '../api/rest';
@@ -12,7 +12,7 @@ const peerId = uniqid();
 
 const [SpaceProvider, useSpace] = createUseContext(() => {
   const [websocket, setWebsocket] = useState<WebSocket>();
-  const [space, setSpace] = useState<Space>();
+  const [currentSpace, setSpace] = useState<Space>();
   const { value: spaces } = useAsync(getSpaces);
   const { spaceId } = useParams<AppParams>();
 
@@ -34,18 +34,30 @@ const [SpaceProvider, useSpace] = createUseContext(() => {
   }, []);
 
   const createSpace = useCallback(
-    async (peerName: string, spaceName: string): Promise<void> => {
+    async (peerName: string, spaceName: string): Promise<Space> => {
       const space = await postSpacesCreate({
         hostName: peerName,
         hostId: peerId,
         spaceName: spaceName,
       });
-      joinSpace(space, peerName);
+      await joinSpace(space, peerName);
+      return space;
     },
     [joinSpace]
   );
 
-  return { space, spaces, joinSpace, createSpace };
+  useEffect(() => {
+    const urlIsCurrentSpace = currentSpace && currentSpace.id === spaceId;
+    console.log({ urlIsCurrentSpace, spaces, spaceId });
+    if (spaces && spaceId && !urlIsCurrentSpace) {
+      const spaceFromUrl = spaces.find((space) => space.id === spaceId);
+      if (spaceFromUrl) {
+        joinSpace(spaceFromUrl, 'anon');
+      }
+    }
+  }, [spaceId, spaces, currentSpace]);
+
+  return { space: currentSpace, spaces, joinSpace, createSpace };
 });
 
 export { SpaceProvider, useSpace };
