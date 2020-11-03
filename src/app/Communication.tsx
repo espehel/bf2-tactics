@@ -8,7 +8,7 @@ import React, {
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import { createSpace, getSpaces } from './api/rest';
-import { connect, joinSpace, onPeerJoined } from './api/websocket';
+import { connect, joinSpace, onSpaceUpdated } from './api/websocket';
 import { Space } from '../types/communication';
 import { useAsync } from 'react-use';
 import { TextField } from '@material-ui/core';
@@ -44,7 +44,7 @@ const Communication: FC = () => {
       console.log({ updatedSpace });
       setSpace(updatedSpace);
 
-      onPeerJoined((spaceWithNewPeer) => {
+      onSpaceUpdated((spaceWithNewPeer) => {
         setSpace(spaceWithNewPeer);
         console.log({ spaceWithNewPeer });
       });

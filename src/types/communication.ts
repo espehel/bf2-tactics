@@ -1,8 +1,7 @@
 export enum SocketEvent {
   Connected = 'Connected',
   JoinSpace = 'JoinSpace',
-  JoinedSpace = 'JoinedSpace',
-  PeerJoined = 'PeerJoined',
+  SpaceUpdated = 'SpaceUpdated',
 }
 
 export interface CreateSpaceBody {
@@ -23,4 +22,4 @@ export interface Space {
   host: Peer;
 }
 
-export type PeerJoinedFunction = (space: Space) => void;
+export type SpaceUpdatedFunction = (space: Space) => void;

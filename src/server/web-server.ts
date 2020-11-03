@@ -39,6 +39,7 @@ app.post('/spaces/create', (request, response) => {
 
   const nsp = io.of(`/${spaceId}`);
   nsp.on('connection', function (socket) {
+    let socketPeer: Peer;
     console.log(
       `NSP CONNECT: Socket with id=${socket.id} connected to namespace ${space.id}`
     );
@@ -47,9 +48,17 @@ app.post('/spaces/create', (request, response) => {
       console.log(
         `JoinedSpace: Socket with id=${socket.id} joined space ${space.id}`
       );
+      socketPeer = peer;
       space.peers.push(peer);
-      socket.emit(SocketEvent.JoinedSpace, space);
-      nsp.emit(SocketEvent.PeerJoined, space);
+      socket.emit(SocketEvent.SpaceUpdated, space);
+      nsp.emit(SocketEvent.SpaceUpdated, space);
+    });
+    socket.on('disconnect', () => {
+      console.log(
+        `NSP DISCONNECT Socket with id=${socket.id} disconnected from namespace ${space.id}`
+      );
+      space.peers = space.peers.filter((peer) => peer.id !== socketPeer.id);
+      nsp.emit(SocketEvent.SpaceUpdated, space);
     });
   });
 

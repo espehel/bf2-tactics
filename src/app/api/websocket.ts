@@ -2,7 +2,7 @@ import io from 'socket.io-client';
 import Socket = SocketIOClient.Socket;
 import {
   Peer,
-  PeerJoinedFunction,
+  SpaceUpdatedFunction,
   SocketEvent,
   Space,
 } from '../../types/communication';
@@ -25,7 +25,7 @@ export const joinSpace = (peer: Peer): Promise<Space> =>
   new Promise<Space>((resolve, reject) => {
     if (socket) {
       socket.emit(SocketEvent.JoinSpace, peer);
-      socket.on(SocketEvent.JoinedSpace, (space: Space) => {
+      socket.on(SocketEvent.SpaceUpdated, (space: Space) => {
         resolve(space);
       });
     } else {
@@ -33,9 +33,9 @@ export const joinSpace = (peer: Peer): Promise<Space> =>
     }
   });
 
-export const onPeerJoined = (fn: PeerJoinedFunction) => {
+export const onSpaceUpdated = (fn: SpaceUpdatedFunction) => {
   if (socket) {
-    socket.on(SocketEvent.PeerJoined, fn);
+    socket.on(SocketEvent.SpaceUpdated, fn);
   } else {
     throw new Error('Socket not connected');
   }
