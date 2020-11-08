@@ -6,7 +6,6 @@ export enum SocketEvent {
 
 export interface CreateSpaceBody {
   spaceName: string;
-  hostName: string;
   hostId: string;
 }
 
@@ -19,7 +18,7 @@ export interface Space {
   id: string;
   name: string;
   peers: Array<Peer>;
-  host: Peer;
+  hostId: string;
 }
 
 export type SpaceUpdatedFunction = (space: Space) => void;

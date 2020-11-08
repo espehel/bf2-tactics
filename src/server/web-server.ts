@@ -27,11 +27,11 @@ const io = SocketIO(server);
 const spaces = new Map<string, Space>();
 
 app.post('/spaces/create', (request, response) => {
-  const { spaceName, hostId, hostName }: CreateSpaceBody = request.body;
+  const { spaceName, hostId }: CreateSpaceBody = request.body;
   const spaceId = uniqid();
   const space: Space = {
     id: spaceId,
-    host: { id: hostId, name: hostName },
+    hostId,
     name: spaceName,
     peers: [],
   };
@@ -62,7 +62,7 @@ app.post('/spaces/create', (request, response) => {
     });
   });
 
-  console.log(`Space ${spaceId} created by ${hostName}(${hostId}).`);
+  console.log(`Space ${spaceId} created by ${hostId}.`);
   response.status(201).send(space);
 });
 
