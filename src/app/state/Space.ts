@@ -28,10 +28,11 @@ const [SpaceProvider, useSpace] = createUseContext(() => {
   }, []);
 
   const createSpace = useCallback(
-    async (spaceName: string): Promise<Space> => {
+    async (spaceName: string, map: string): Promise<Space> => {
       const space = await postSpacesCreate({
         hostId: peerId,
         spaceName: spaceName,
+        map,
       });
       refreshSpaces();
       return space;
@@ -39,7 +40,14 @@ const [SpaceProvider, useSpace] = createUseContext(() => {
     [joinSpace, refreshSpaces]
   );
 
-  return { space: currentSpace, spaces, joinSpace, createSpace };
+  const changeMap = useCallback(
+    (map: string) => {
+      websocket?.changeMap(map);
+    },
+    [websocket]
+  );
+
+  return { space: currentSpace, spaces, joinSpace, createSpace, changeMap };
 });
 
 export { SpaceProvider, useSpace };

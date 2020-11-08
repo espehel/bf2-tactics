@@ -5,17 +5,15 @@ import DrawingBoard from './drawing/DrawingBoard';
 import Toolbar from './drawing/Toolbar';
 import { CanvasProvider } from './state/Canvas';
 import { ToolsProvider } from './state/Tools';
+import { useMainState } from './state/MainState';
 
 const useStyles = makeStyles({
   planner: { backgroundColor: 'powderblue' },
 });
 
-interface Props {
-  map: string;
-}
-
-const Planner: FC<Props> = ({ map }) => {
+const Planner: FC = () => {
   const styles = useStyles();
+  const { map } = useMainState();
   return (
     <CanvasProvider>
       <ToolsProvider>

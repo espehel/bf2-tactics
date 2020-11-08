@@ -27,13 +27,14 @@ const io = SocketIO(server);
 const spaces = new Map<string, Space>();
 
 app.post('/spaces/create', (request, response) => {
-  const { spaceName, hostId }: CreateSpaceBody = request.body;
+  const { hostId, map, spaceName }: CreateSpaceBody = request.body;
   const spaceId = uniqid();
   const space: Space = {
     id: spaceId,
     hostId,
     name: spaceName,
     peers: [],
+    map,
   };
   spaces.set(spaceId, space);
 
@@ -51,6 +52,10 @@ app.post('/spaces/create', (request, response) => {
       socketPeer = peer;
       space.peers.push(peer);
       socket.emit(SocketEvent.SpaceUpdated, space);
+      nsp.emit(SocketEvent.SpaceUpdated, space);
+    });
+    socket.on(SocketEvent.ChangeMap, (map: string) => {
+      space.map = map;
       nsp.emit(SocketEvent.SpaceUpdated, space);
     });
     socket.on('disconnect', () => {

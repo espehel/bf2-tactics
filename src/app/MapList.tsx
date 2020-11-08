@@ -5,6 +5,7 @@ import ListItem from '@material-ui/core/ListItem';
 import Avatar from '@material-ui/core/Avatar';
 import ListItemText from '@material-ui/core/ListItemText';
 import makeStyles from '@material-ui/core/styles/makeStyles';
+import { useMainState } from './state/MainState';
 
 const useStyles = makeStyles((theme) => ({
   mapList: {
@@ -15,11 +16,11 @@ const useStyles = makeStyles((theme) => ({
 
 interface Props {
   maps: Array<string>;
-  onMapClick: (map: string) => void;
 }
 
-const MapList: FC<Props> = ({ maps, onMapClick }) => {
+const MapList: FC<Props> = ({ maps }) => {
   const classes = useStyles();
+  const { setMap } = useMainState();
   return (
     <List dense className={classes.mapList}>
       {maps.map((mapName) => {
@@ -28,7 +29,7 @@ const MapList: FC<Props> = ({ maps, onMapClick }) => {
             key={mapName}
             divider
             button
-            onClick={() => onMapClick(mapName)}
+            onClick={() => setMap(mapName)}
           >
             <ListItemAvatar>
               <Avatar

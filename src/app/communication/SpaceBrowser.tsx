@@ -1,23 +1,19 @@
-import React, {
-  Dispatch,
-  FC,
-  SetStateAction,
-  useCallback,
-  useState,
-} from 'react';
+import React, { FC, useCallback, useState } from 'react';
 import { TextField } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import { Space } from '../../types/communication';
 import { useHistory } from 'react-router-dom';
 import { useSpace } from '../state/Space';
+import { useMainState } from '../state/MainState';
 
 const SpaceBrowser: FC = () => {
   const history = useHistory();
   const { spaces, createSpace } = useSpace();
+  const { map } = useMainState();
   const [spaceName, setSpaceName] = useState('');
 
   const handleCreateSpace = useCallback(async () => {
-    const createdSpace = await createSpace(spaceName);
+    const createdSpace = await createSpace(spaceName, map);
     history.replace(`/${createdSpace.id}`);
   }, [spaceName]);
 
@@ -36,12 +32,12 @@ const SpaceBrowser: FC = () => {
     <section>
       <section>
         <TextField
-          label="Room name"
+          label="Space name"
           variant="filled"
           onChange={handleNameChange}
         />
         <Button variant="contained" color="primary" onClick={handleCreateSpace}>
-          Create room
+          Create space
         </Button>
       </section>
       {spaces &&

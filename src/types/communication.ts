@@ -2,11 +2,13 @@ export enum SocketEvent {
   Connected = 'Connected',
   JoinSpace = 'JoinSpace',
   SpaceUpdated = 'SpaceUpdated',
+  ChangeMap = 'ChangeMap',
 }
 
 export interface CreateSpaceBody {
   spaceName: string;
   hostId: string;
+  map: string;
 }
 
 export interface Peer {
@@ -19,6 +21,7 @@ export interface Space {
   name: string;
   peers: Array<Peer>;
   hostId: string;
+  map: string;
 }
 
 export type SpaceUpdatedFunction = (space: Space) => void;

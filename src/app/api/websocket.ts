@@ -40,6 +40,10 @@ export default class Websocket {
       });
     });
 
+  changeMap = (map: string) => {
+    this.socket.emit(SocketEvent.ChangeMap, map);
+  };
+
   onSpaceUpdated = (fn: SpaceUpdatedFunction) => {
     this.socket.on(SocketEvent.SpaceUpdated, fn);
   };

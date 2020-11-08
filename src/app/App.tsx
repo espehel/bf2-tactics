@@ -1,10 +1,11 @@
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Planner from './Planner';
 import Header from './Header';
 import MapList from './MapList';
 import { mapNames } from './mapAssets';
 import Communication from './Communication';
+import { MainStateProvider } from './state/MainState';
 
 const useStyles = makeStyles({
   app: { height: '100%' },
@@ -16,15 +17,16 @@ const useStyles = makeStyles({
 
 const App: FC = () => {
   const styles = useStyles();
-  const [map, setMap] = useState('Dalian_plant');
   return (
     <article className={styles.app}>
       <Header />
-      <main className={styles.main}>
-        <MapList maps={mapNames} onMapClick={setMap} />
-        <Planner map={map} />
-        <Communication />
-      </main>
+      <MainStateProvider>
+        <main className={styles.main}>
+          <MapList maps={mapNames} />
+          <Planner />
+          <Communication />
+        </main>
+      </MainStateProvider>
     </article>
   );
 };
