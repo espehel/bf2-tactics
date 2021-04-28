@@ -24,12 +24,7 @@ const DrawingBoard: FC<Props> = ({ backgroundSrc }) => {
   const { setCanvas } = useCanvas();
   useEffect(() => {
     if (canvasRef.current) {
-      const canvas = new fabric.Canvas('draw-canvas', {
-        width: 1024,
-        height: 1024,
-      });
-      canvas.freeDrawingBrush.color = 'yellow';
-      setCanvas(canvas);
+      setCanvas(canvasRef.current.id, 1024, 1024);
     }
   }, [canvasRef]);
 

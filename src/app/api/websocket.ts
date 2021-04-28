@@ -5,6 +5,7 @@ import {
   SpaceUpdatedFunction,
   SocketEvent,
   Space,
+  CanvasUpdatedFunction,
 } from '../../types/communication';
 
 export default class Websocket {
@@ -44,7 +45,14 @@ export default class Websocket {
     this.socket.emit(SocketEvent.ChangeMap, map);
   };
 
+  updateCanvas = (canvasJson: string) => {
+    this.socket.emit(SocketEvent.UpdateCanvas, canvasJson);
+  };
+
   onSpaceUpdated = (fn: SpaceUpdatedFunction) => {
     this.socket.on(SocketEvent.SpaceUpdated, fn);
+  };
+  onCanvasUpdated = (fn: CanvasUpdatedFunction) => {
+    this.socket.on(SocketEvent.CanvasUpdated, fn);
   };
 }

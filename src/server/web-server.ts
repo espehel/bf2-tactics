@@ -37,6 +37,7 @@ app.post('/spaces/create', (request, response) => {
     map,
   };
   spaces.set(spaceId, space);
+  let canvasJson = '';
 
   const nsp = io.of(`/${spaceId}`);
   nsp.on('connection', function (socket) {
@@ -57,6 +58,12 @@ app.post('/spaces/create', (request, response) => {
     socket.on(SocketEvent.ChangeMap, (map: string) => {
       space.map = map;
       nsp.emit(SocketEvent.SpaceUpdated, space);
+    });
+    socket.on(SocketEvent.UpdateCanvas, (updatedCanvasJson: string) => {
+      if (canvasJson !== updatedCanvasJson) {
+        canvasJson = updatedCanvasJson;
+        nsp.emit(SocketEvent.CanvasUpdated, updatedCanvasJson);
+      }
     });
     socket.on('disconnect', () => {
       console.log(

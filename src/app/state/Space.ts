@@ -9,9 +9,10 @@ import uniqid from 'uniqid';
 const peerId = uniqid();
 
 const [SpaceProvider, useSpace] = createUseContext(() => {
+  const { value: spaces, retry: refreshSpaces } = useAsyncRetry(getSpaces);
   const [websocket, setWebsocket] = useState<WebSocket>();
   const [currentSpace, setSpace] = useState<Space>();
-  const { value: spaces, retry: refreshSpaces } = useAsyncRetry(getSpaces);
+  const [canvasJson, setCanvasJson] = useState<string>();
 
   const joinSpace = useCallback(async (space: Space, peerName: string): Promise<
     void
@@ -24,6 +25,9 @@ const [SpaceProvider, useSpace] = createUseContext(() => {
 
     ws.onSpaceUpdated((spaceWithNewPeer) => {
       setSpace(spaceWithNewPeer);
+    });
+    ws.onCanvasUpdated((updatedCanvasJson) => {
+      setCanvasJson(updatedCanvasJson);
     });
   }, []);
 
@@ -47,7 +51,23 @@ const [SpaceProvider, useSpace] = createUseContext(() => {
     [websocket]
   );
 
-  return { space: currentSpace, spaces, joinSpace, createSpace, changeMap };
+  const updateCanvas = useCallback(
+    (canvasJson: string) => {
+      console.log({ canvasJson });
+      websocket?.updateCanvas(canvasJson);
+    },
+    [websocket]
+  );
+
+  return {
+    space: currentSpace,
+    canvasJson,
+    spaces,
+    joinSpace,
+    createSpace,
+    changeMap,
+    updateCanvas,
+  };
 });
 
 export { SpaceProvider, useSpace };
